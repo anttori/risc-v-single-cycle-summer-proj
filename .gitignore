@@ -1,0 +1,30 @@
+# Temporary Quartus db's
+db/
+incremental_db/
+output_files/
+hc_output/
+.qsys_edit/
+hps_isw_handoff/
+*.rpt
+*.chg
+*.htm
+*.eqn
+*.pin
+*.sof
+*.pof
+*.jdi
+*.done
+*.smsg
+*.summary
+*.qws
+
+# Temporary ModelSim files
+simulation/
+*.vcd
+*.wlf
+transcript
+work/
+
+# OS service files
+Thumbs.db
+.DS_Store
