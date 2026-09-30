@@ -17,6 +17,7 @@ hps_isw_handoff/
 *.smsg
 *.summary
 *.qws
+*.bsf
 
 # Temporary ModelSim files
 simulation/
