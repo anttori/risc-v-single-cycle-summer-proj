@@ -8,7 +8,7 @@ module regfile (
 	input logic [4:0] rd,		// Write reg
 	
 	input logic [31:0] dataW,		// Data to write
-	input logic RegWEn, 		// Flag allowing reg write
+	input logic RegWEn, 		// Flag allowing reg write	
 	
 	
 	output logic [31:0] rs1_data,		// Reg 1 data out
@@ -35,7 +35,7 @@ module regfile (
 		else begin
 			
 			if(RegWEn && rd != 5'h0) begin		// Check if write flag is up and reg number isn't zero
-				registers[rd] <= dataW;			// Write data into a reg
+				registers[rd] <= dataW;				// Write data into a reg
 			end
 			
 		end

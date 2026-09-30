@@ -1,0 +1,105 @@
+`timescale 1ns / 1ps
+
+import riscv_pkg::*;
+
+module tb_datapath ();
+
+	// 1. Signals for Device Under Test (DUT) interface
+	logic        clk;
+	logic        resetN;
+	logic [31:0] inst;
+	logic        RegWEn;
+	alu_states   ALUCtrl;
+	logic [31:0] pc;
+
+	// 2. Instantiate Device Under Test (DUT)
+	datapath u_datapath (
+		.clk     (clk),
+		.resetN  (resetN),
+		.inst    (inst),
+		.RegWEn  (RegWEn),
+		.ALUCtrl (ALUCtrl),
+		.pc      (pc)
+	);
+
+	// 3. Clock generator (period = 20 ns -> frequency = 50 MHz)
+	initial begin
+		clk = 1'b0;
+		forever #10 clk = ~clk;
+	end
+
+	// 4. Main test stimulus sequence
+	initial begin
+		// Initialize input signals
+		resetN  = 1'b1;
+		RegWEn  = 1'b0;
+		ALUCtrl = ALU_ADD;
+		inst    = 32'b0;
+
+		// --- Test 1: Asynchronous Reset ---
+		#5;
+		resetN = 1'b0; // Assert active-low reset
+		#20;
+		resetN = 1'b1; // Deassert reset
+		#15;
+
+		// Preload initial test values directly into registers x1 and x2
+		// Emulating x1 = 15, x2 = 25
+		@(posedge clk);
+		u_datapath.u_regfile.registers[1] = 32'd15;
+		u_datapath.u_regfile.registers[2] = 32'd25;
+
+		// Wait one cycle so inputs propagate cleanly
+		@(posedge clk);
+
+		// --- Test 2: Execute add x3, x1, x2 (15 + 25 = 40) ---
+		// Bit fields: {funct7, rs2, rs1, funct3, rd, opcode}
+		inst    = {7'b0000000, 5'd2, 5'd1, 3'b000, 5'd3, 7'b0110011};
+		ALUCtrl = ALU_ADD;
+		RegWEn  = 1'b1;
+
+		// Wait for clock edge where data writes into the register file
+		@(posedge clk);
+		#1; // Settling delay before assertion
+
+		// Check addition result in register x3
+		assert (u_datapath.u_regfile.registers[3] === 32'd40)
+			$display("[PASS] ADD: x1 (15) + x2 (25) = x3 (%0d)", u_datapath.u_regfile.registers[3]);
+		else
+			$error("[FAIL] ADD failed! Expected 40, got %0d", u_datapath.u_regfile.registers[3]);
+
+		// --- Test 3: Execute sub x4, x2, x1 (25 - 15 = 10) ---
+		// Bit fields: {funct7, rs2, rs1, funct3, rd, opcode}
+		inst    = {7'b0100000, 5'd1, 5'd2, 3'b000, 5'd4, 7'b0110011};
+		ALUCtrl = ALU_SUB;
+		RegWEn  = 1'b1;
+
+		@(posedge clk);
+		#1;
+
+		// Check subtraction result in register x4
+		assert (u_datapath.u_regfile.registers[4] === 32'd10)
+			$display("[PASS] SUB: x2 (25) - x1 (15) = x4 (%0d)", u_datapath.u_regfile.registers[4]);
+		else
+			$error("[FAIL] SUB failed! Expected 10, got %0d", u_datapath.u_regfile.registers[4]);
+
+		// --- Test 4: Verify hardwired x0 zero protection ---
+		// Attempt to write into x0: add x0, x1, x2
+		inst    = {7'b0000000, 5'd2, 5'd1, 3'b000, 5'd0, 7'b0110011};
+		ALUCtrl = ALU_ADD;
+		RegWEn  = 1'b1;
+
+		@(posedge clk);
+		#1;
+
+		// Ensure register x0 remains 0
+		assert (u_datapath.u_regfile.registers[0] === 32'd0)
+			$display("[PASS] Hardwired zero: x0 remains 0 after write attempt");
+		else
+			$error("[FAIL] Hardwired zero violated! x0 = %0d", u_datapath.u_regfile.registers[0]);
+
+		$display("All datapath tests passed!");
+		$stop; // Suspend simulation
+	end
+
+endmodule
