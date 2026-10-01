@@ -13,12 +13,31 @@ module datapath (
 	output logic [31:0] pc 		// Next instruction address
 );
 	
+	// Internal datapath signals
+	logic [31:0] pc_plus_4;
+	
 	logic [31:0] reg1_data;
 	logic [31:0] reg2_data; 
-	logic [31:0] alu_result;
-
-	assign pc = 32'b0; 		// Temporary: pc zero assign 
 	
+	logic [31:0] alu_result;
+	
+	
+	// Next instruction address logic
+	assign pc_plus_4 = pc + 32'h4;
+
+	
+	// Program counter instance
+	pc #(
+		.BOOT_ADDR(32'h0)
+	) u_pc (
+		.clk(clk),
+		.resetN(resetN),
+		.pc_next(pc_plus_4),
+		.pc_out(pc)
+	);
+	
+	
+	// Register File instance
 	regfile u_regfile(
 		.clk(clk),
 		.resetN(resetN),
@@ -32,6 +51,7 @@ module datapath (
 	);
 	
 	
+	// ALU instance
 	alu u_alu(
 		.op_a(reg1_data),		// Temporary: regs data straight as ALU inputs
 		.op_b(reg2_data),
