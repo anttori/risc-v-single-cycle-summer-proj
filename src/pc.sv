@@ -10,9 +10,9 @@ module pc #(
 	output logic [31:0] pc_out
 );
 
-
 	always_ff @(posedge clk or negedge resetN) begin
 
+		// Inst address reset
 		if(!resetN) pc_out <= BOOT_ADDR;
 		
 		else pc_out <= pc_next;

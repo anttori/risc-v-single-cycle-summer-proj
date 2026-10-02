@@ -1,0 +1,14 @@
+import riscv_pkg::*;
+
+module controller(
+	
+	input opcode_e opcode,
+	input logic [3:0] func3,
+	
+	output logic RegWEn,		// Register Write flag
+	output alu_sel_states ALUSel, 	// ALU inst family
+);
+
+
+
+endmodule 

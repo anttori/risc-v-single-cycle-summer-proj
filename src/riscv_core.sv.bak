@@ -1,0 +1,32 @@
+import riscv_pkg::*;
+
+module riscv_core (
+	input logic clk,
+	input logic resetN,
+	
+	input logic [31:0] inst,
+	
+	output logic [31:0] pc
+);
+
+
+	
+	// Controller instance 
+	controller u_controller(
+		.opcode(inst[6:0]),		// Bit cut-out straight from inst	
+		.func3(inst[14:12]),
+		.RegWEn(RegWEn),
+		.ALUSel(ALUSel)
+	);
+	
+	
+	// ALU Controller instance
+	alu_ctrl u_alu_ctrl(
+		.func3(inst[14:12]),
+		.func7(inst[31:25]),
+		.ALUSel(ALUSel),
+		.alu_ctrl_out(ALUCtrl)
+	)
+
+	
+endmodule

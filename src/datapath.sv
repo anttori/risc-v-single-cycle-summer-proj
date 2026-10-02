@@ -59,5 +59,4 @@ module datapath (
 		.alu_out(alu_result)
 	);	
 	
-	
 endmodule
