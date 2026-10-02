@@ -2,10 +2,10 @@ import riscv_pkg::*;
 
 module alu_ctrl(
 	
-	input logic [6:0] func7,
 	input logic [2:0] func3, 
+	input logic [6:0] func7,
 	
-	input alu_sel_states ALUSel,
+	input alu_sel_e ALUSel,
 	
 	output alu_states alu_ctrl_out
 );
