@@ -1,5 +1,5 @@
 module pc #(
-	parameter logic [31:0] BOOT_ADDR = 32'h0;
+	parameter logic [31:0] BOOT_ADDR = 32'h0
 )(
 	
 	input logic clk,

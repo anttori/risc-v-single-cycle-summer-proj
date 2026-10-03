@@ -98,7 +98,7 @@ module tb_datapath ();
 		else
 			$error("[FAIL] Hardwired zero violated! x0 = %0d", u_datapath.u_regfile.registers[0]);
 
-		$display("All datapath tests passed!");
+		$display("\n All datapath tests passed!");
 		$stop; // Suspend simulation
 	end
 
