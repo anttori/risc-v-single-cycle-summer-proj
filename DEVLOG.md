@@ -46,10 +46,25 @@
 
 \### Components
 
-* 'src/alu.sc': new
+* 'src/alu.sv': new
 * 'src/riscv\_pkg.sv': new
 * 'src/datapath.sv': new
 * 'tb/tb_datapath.sv': new
+
+
+
+## 01-03.10.2026: PC, Controller, ALU controller, RiscV Core Top Module Testbench
+
+### Architectural Decisions
+* Added RiscV Core top module connecting controllers and datapath. Contains IMEM interface (inst in, pc out). Will contain DMEM interface in future
+
+### Components
+* 'src/alu_ctrl.sv': new
+* 'src/controller.sv': new
+* 'src/risc_core.sv': new
+* 'src/pc.sc': new
+* 'src/riscv_pkg.sv': additional enums
+* 'tb/riscv_core_add_sub.sv': new
 
 
 
