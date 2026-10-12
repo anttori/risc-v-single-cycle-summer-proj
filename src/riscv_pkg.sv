@@ -24,5 +24,7 @@ package riscv_pkg;
 		OPC_AUIPC = 7'b1110111,
 		OPC_SYSTEM = 7'b1110011
 	} opcode_e;
+	
+	typedef enum logic [2:0] { IMM_I, IMM_S, IMM_B, IMM_U, IMM_J } imm_sel_e;
 
 endpackage
