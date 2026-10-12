@@ -12,6 +12,8 @@ module alu_ctrl(
 
 	always_comb begin
 	
+		alu_ctrl_out = ALU_ADD;		// default value
+	
 		case(ALUSel)
 			
 			// R-Type
@@ -22,7 +24,26 @@ module alu_ctrl(
 					// ADD/SUB
 					3'b000: alu_ctrl_out = func7[5] ? ALU_SUB : ALU_ADD;
 					
-					default: alu_ctrl_out = ALU_ADD;		// Temporary: Add for any R-type inst other than Add/Sub
+					// SLL
+					3'b001: alu_ctrl_out = ALU_SLL;
+					
+					// SLT
+					3'b010: alu_ctrl_out = ALU_SLT;
+					
+					// SLTU
+					3'b011: alu_ctrl_out = ALU_SLTU;
+					
+					// XOR
+					3'b100: alu_ctrl_out = ALU_XOR;
+					
+					// SRL/SRA
+					3'b101: alu_ctrl_out = func7[5] ? ALU_SRA : ALU_SRL;
+					
+					// OR
+					3'b110: alu_ctrl_out = ALU_OR;
+					
+					// AND
+					3'b111: alu_ctrl_out = ALU_AND;
 				
 				endcase
 				
