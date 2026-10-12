@@ -53,7 +53,7 @@
 
 
 
-## 01-03.10.2026: PC, Controller, ALU controller, RiscV Core Top Module Testbench
+## 01-03.10.2026: PC, Controller, ALU controller, Risc-V Core Top Module Testbench
 
 ### Architectural Decisions
 * Added RiscV Core top module connecting controllers and datapath. Contains IMEM interface (inst in, pc out). Will contain DMEM interface in future
@@ -65,6 +65,19 @@
 * 'src/pc.sc': new
 * 'src/riscv_pkg.sv': additional enums
 * 'tb/riscv_core_add_sub.sv': new
+
+
+
+## 12.10.2026: All R-Type instructions support, All R-Type inst's testbench
+
+### Architectural Decisions:
+* Added additional ALU states to enum, Added additional cases in ALU controller and ALU
+
+### Components
+* 'src/riscv_pkg.sv': additional enums
+* 'src/alu_ctrl.sv': additional cases
+* 'src/alu.sv': additional cases
+* 'tb/tb_riscv_core_r_type.sv': new
 
 
 
