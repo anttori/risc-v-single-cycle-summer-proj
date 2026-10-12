@@ -68,16 +68,22 @@
 
 
 
-## 12.10.2026: All R-Type instructions support, All R-Type inst's testbench
+## 12.10.2026: All R-Type instructions support & testbench; All I-Type: OP_IMM instructions support & testbench
 
 ### Architectural Decisions:
-* Added additional ALU states to enum, Added additional cases in ALU controller and ALU
+* Added additional ALU states to enum, Added additional cases in ALU controller and ALU.
+* Created new Immediate Generator module, Updated Controller & ALU Controller, Added Imm Gen enum, updated connections in Top module & datapath.
 
 ### Components
+* 'src/imm_gen.sv': new
 * 'src/riscv_pkg.sv': additional enums
 * 'src/alu_ctrl.sv': additional cases
 * 'src/alu.sv': additional cases
+* 'src/controller.sv': added new signal outputs
+* 'src/datapath.sv': added imm_gen instance
+* 'src/riscv_core.sv': connected new outputs in controller & inputs in datapath
 * 'tb/tb_riscv_core_r_type.sv': new
+* 'tb/tb_riscv_core_i_type.sv': new
 
 
 
