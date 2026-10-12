@@ -50,6 +50,21 @@ module alu_ctrl(
 			end
 			
 			
+			// I-Type
+			ALU_SEL_I: begin
+			
+				case(func3)
+					
+					// ADD
+					3'b000: alu_ctrl_out = ALU_ADD;
+					
+					default: alu_ctrl_out = ALU_ADD;
+					
+				endcase
+				
+			end
+			
+			
 			default: alu_ctrl_out = ALU_ADD;		// Temporary: Add for any inst other than R-type 
 		
 		endcase
