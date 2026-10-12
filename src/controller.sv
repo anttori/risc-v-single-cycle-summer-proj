@@ -26,12 +26,13 @@ module controller(
 		
 		case(opcode)
 			
-			// R-Type
+			// R-Type: OP
 			OPC_OP: begin
 				RegWEn = 1'b1;
 				ALUSel = ALU_SEL_R;
 			end
 			
+			// I-Type: OP_IMM
 			OPC_OP_IMM: begin
 				RegWEn = 1'b1;
 				BSel = 1'b1;
