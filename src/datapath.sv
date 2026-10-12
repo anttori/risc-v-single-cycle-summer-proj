@@ -9,6 +9,8 @@ module datapath (
 	
 	input logic RegWEn,				// Register Write Enable flag
 	input alu_states ALUCtrl,		// ALU state flag
+	input logic BSel,				// Selector for ALU op_b input mux
+	input imm_sel_e ImmSel,		// Imm Gen control signal
 	
 	output logic [31:0] pc 		// Next instruction address
 );
@@ -21,9 +23,16 @@ module datapath (
 	
 	logic [31:0] alu_result;
 	
+	logic [31:0] imm;
 	
-	// Next instruction address logic
+	logic [31:0] alu_op_b;
+	
+	
+	// Next instruction address logic (PC+4)
 	assign pc_plus_4 = pc + 32'h4;
+	
+	// ALU op_b mux
+	assign alu_op_b = BSel ? imm : reg2_data;
 
 	
 	// Program counter instance
@@ -54,9 +63,17 @@ module datapath (
 	// ALU instance
 	alu u_alu(
 		.op_a(reg1_data),		// Temporary: regs data straight as ALU inputs
-		.op_b(reg2_data),
+		.op_b(alu_op_b),
 		.ALUCtrl(ALUCtrl),
 		.alu_out(alu_result)
 	);	
+	
+	
+	// Imm Gen instance
+	imm_gen u_imm_gen(
+		.inst(inst),
+		.ImmSel(ImmSel),
+		.imm(imm)
+	);
 	
 endmodule

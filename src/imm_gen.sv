@@ -5,7 +5,7 @@ module imm_gen(
 	
 	input logic [31:0] inst,		// Inst input signal
 	
-	input imm_sel_e immSel,		// Imm Sel control signal
+	input imm_sel_e ImmSel,		// Imm Sel control signal
 	
 	
 	output logic [31:0] imm		// Generated Imm output
@@ -14,10 +14,10 @@ module imm_gen(
 
 always_comb begin
 
-	case(immSel)
+	case(ImmSel)
 	
 		// I-Type 
-		IMM_I: imm_out = { 20{imm[31]}, imm[31:20] };
+		IMM_I: imm = { {20{inst[31]}}, inst[31:20] };
 		
 		default: imm = '0;		// Default value
 	
