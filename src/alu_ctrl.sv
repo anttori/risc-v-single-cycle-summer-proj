@@ -18,7 +18,6 @@ module alu_ctrl(
 			
 			// R-Type
 			ALU_SEL_R: begin
-				
 				case(func3)
 				
 					// ADD/SUB
@@ -50,9 +49,8 @@ module alu_ctrl(
 			end
 			
 			
-			// I-Type
-			ALU_SEL_I: begin
-			
+			// I-Type: OP_IMM
+			ALU_SEL_I: begin			
 				case(func3)
 					
 					// ADD
@@ -83,6 +81,12 @@ module alu_ctrl(
 					
 				endcase
 				
+			end
+			
+			
+			// I-Type: LOAD/STORE
+			ALU_SEL_LS: begin				
+				alu_ctrl_out = ALU_ADD;
 			end
 			
 			
