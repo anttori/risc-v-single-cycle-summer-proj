@@ -28,7 +28,7 @@ module controller(
 		BSel = 1'b0;
 		ImmSel = IMM_I;
 		MemRW = 1'b0;
-		WBSel = 2'b01; 	// TODO: Check this default value
+		WBSel = 2'b01; 	
 		
 		case(opcode)
 			

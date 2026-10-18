@@ -5,12 +5,12 @@ module load_extender(
 	
 	input logic [2:0] func3,	
 	
-	output logic [31:0] data_wb
+	output logic [31:0] le_data_out
 );
 
 
 always_comb begin
-	data_wb = dmem_data;		// Default value
+	le_data_out = dmem_data;		// Default value
 	
 	case(func3) 
 		
@@ -19,16 +19,16 @@ always_comb begin
 			case(addr)
 			
 				// First byte
-				2'b00: data_wb = { {24{dmem_data[7]}}, dmem_data[7:0] };
+				2'b00: le_data_out = { {24{dmem_data[7]}}, dmem_data[7:0] };
 				
 				// Second byte
-				2'b01: data_wb = { {24{dmem_data[15]}}, dmem_data[15:8] };
+				2'b01: le_data_out = { {24{dmem_data[15]}}, dmem_data[15:8] };
 				
 				// Third byte
-				2'b10: data_wb = { {24{dmem_data[23]}}, dmem_data[23:16] };
+				2'b10: le_data_out = { {24{dmem_data[23]}}, dmem_data[23:16] };
 				
 				// Fourth byte
-				2'b11: data_wb = { {24{dmem_data[31]}}, dmem_data[31:24] };
+				2'b11: le_data_out = { {24{dmem_data[31]}}, dmem_data[31:24] };
 				
 			endcase
 		end
@@ -38,32 +38,32 @@ always_comb begin
 			case(addr[1])
 			
 				// First half
-				1'b0: data_wb = { {16{dmem_data[15]}}, dmem_data[15:0] };
+				1'b0: le_data_out = { {16{dmem_data[15]}}, dmem_data[15:0] };
 				
 				// Last half
-				1'b1: data_wb = { {16{dmem_data[31]}}, dmem_data[31:16] };
+				1'b1: le_data_out = { {16{dmem_data[31]}}, dmem_data[31:16] };
 				
 			endcase
 		end
 		
 		// LW
-		3'b010: data_wb = dmem_data;
+		3'b010: le_data_out = dmem_data;
 			
 		// LBU
 		3'b100: begin
 			case(addr)
 			
 				// First byte
-				2'b00: data_wb = { 24'b0, dmem_data[7:0] };
+				2'b00: le_data_out = { 24'b0, dmem_data[7:0] };
 				
 				// Second byte
-				2'b01: data_wb = { 24'b0, dmem_data[15:8] };
+				2'b01: le_data_out = { 24'b0, dmem_data[15:8] };
 				
 				// Third byte
-				2'b10: data_wb = { 24'b0, dmem_data[23:16] };
+				2'b10: le_data_out = { 24'b0, dmem_data[23:16] };
 				
 				// Fourth byte
-				2'b11: data_wb = { 24'b0, dmem_data[31:24] };
+				2'b11: le_data_out = { 24'b0, dmem_data[31:24] };
 				
 			endcase
 		end
@@ -73,10 +73,10 @@ always_comb begin
 			case(addr[1])
 			
 				// First half
-				1'b0: data_wb = { 16'b0, dmem_data[15:0] };
+				1'b0: le_data_out = { 16'b0, dmem_data[15:0] };
 				
 				// Last half
-				1'b1: data_wb = { 16'b0, dmem_data[31:16] };
+				1'b1: le_data_out = { 16'b0, dmem_data[31:16] };
 				
 			endcase
 		end
