@@ -16,8 +16,11 @@ always_comb begin
 
 	case(ImmSel)
 	
-		// I-Type 
+		// I-Type, Load 
 		IMM_I: imm = { {20{inst[31]}}, inst[31:20] };
+		
+		// Store
+		IMM_S: imm = { {20{inst[31]}}, inst[31:25], inst[11:7] };
 		
 		default: imm = '0;		// Default value
 	
