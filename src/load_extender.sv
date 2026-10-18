@@ -14,7 +14,7 @@ always_comb begin
 	
 	case(func3) 
 		
-		// LB
+		// LB - Load Byte
 		3'b000: begin
 			case(addr)
 			
@@ -33,7 +33,7 @@ always_comb begin
 			endcase
 		end
 		
-		// LH
+		// LH - Load Half
 		3'b001: begin
 			case(addr[1])
 			
@@ -46,10 +46,10 @@ always_comb begin
 			endcase
 		end
 		
-		// LW
+		// LW - Load Word
 		3'b010: le_data_out = dmem_data;
 			
-		// LBU
+		// LBU - Load Byte Unsigned
 		3'b100: begin
 			case(addr)
 			
@@ -68,7 +68,7 @@ always_comb begin
 			endcase
 		end
 		
-		// LHU
+		// LHU - Load Half unsigned
 		3'b101: begin
 			case(addr[1])
 			
@@ -80,6 +80,8 @@ always_comb begin
 				
 			endcase
 		end
+		
+		default: ;
 	
 	endcase
 

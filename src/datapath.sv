@@ -53,7 +53,9 @@ module datapath (
 			2'b01: wb_data = alu_result;		// 1: Data from ALU	
 			2'b00: wb_data = le_data;		// 2: Data from DMEM
 			// 2'b10: TODO		// 3: Reserved for JAL/JALR
-		
+			
+			default: ;
+			
 		endcase
 	end
 
