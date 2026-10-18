@@ -63,6 +63,7 @@ module controller(
 				RegWEn = 1'b0;
 				ALUSel = ALU_SEL_LS;
 				BSel = 1'b1;
+				MemRW = 1'b1;
 			end
 			
 			default:	;	
