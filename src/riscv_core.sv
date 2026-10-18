@@ -12,7 +12,8 @@ module riscv_core (
 	input logic [31:0] dmem_data,
 	output logic dmem_wen,
 	output logic [31:0] dmem_addr,
-	output logic [31:0] dmem_wdata
+	output logic [31:0] dmem_wdata,
+	output logic [3:0] dmem_data_en
 	
 );
 
@@ -24,9 +25,6 @@ module riscv_core (
 	alu_sel_e ALUSel;		// ALU inst family
 	alu_states ALUCtrl;		// ALU operation type
 	imm_sel_e ImmSel;		// Imm Gen control signal
-	
-	
-	assign dmem_wdata = 32'b0; 		// TEMP
 	
 	
 	// Controller instance 
@@ -64,9 +62,12 @@ module riscv_core (
 		.BSel(BSel),
 		.ImmSel(ImmSel),
 		.WBSel(WBSel),
+		.MemRW(dmem_wen),
 		
 		.pc(pc),
-		.dmem_addr(dmem_addr)
+		.dmem_addr(dmem_addr),
+		.dmem_wdata(dmem_wdata),
+		.dmem_data_en(dmem_data_en)
 	);
 
 	

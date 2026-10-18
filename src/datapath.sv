@@ -14,10 +14,13 @@ module datapath (
 	input logic BSel,				// Selector for ALU op_b input mux
 	input imm_sel_e ImmSel,		// Imm Gen control signal
 	input logic [1:0] WBSel,		// Writeback mux selector
+	input logic MemRW,		// DMEM Read/Write flag
 	
 	output logic [31:0] pc, 		// Next instruction address
 	
-	output logic [31:0] dmem_addr		// DMEM Read/Write word address
+	output logic [31:0] dmem_addr,		// DMEM Read/Write word address
+	output logic [31:0] dmem_wdata,		// DMEM Data to store
+	output logic [3:0] dmem_data_en 	// DMEM Write mask
 );
 	
 	// Internal datapath signals
@@ -28,7 +31,7 @@ module datapath (
 	logic [31:0] wb_data;
 	
 	logic [31:0] alu_result;
-	
+
 	logic [31:0] imm;
 	
 	logic [31:0] alu_op_b;
@@ -47,15 +50,12 @@ module datapath (
 		dmem_addr = alu_result;		//CHECK THIS
 	
 		// Register File Writeback Mux
-		wb_data = alu_result;		// Default value
-		
 		case(WBSel)
 			2'b01: wb_data = alu_result;		// 1: Data from ALU	
 			2'b00: wb_data = le_data;		// 2: Data from DMEM
 			// 2'b10: TODO		// 3: Reserved for JAL/JALR
 			
-			default: ;
-			
+			default: wb_data = alu_result;	
 		endcase
 	end
 
@@ -108,6 +108,17 @@ module datapath (
 		.addr(alu_result[1:0]),		
 		.func3(inst[14:12]),		
 		.le_data_out(le_data)
+	);
+	
+	
+	// Store Formatter instance
+	store_formatter u_store_formatter(
+		.data(reg2_data),
+		.addr(alu_result[1:0]),
+		.func3(inst[14:12]),
+		.MemRW(MemRW),
+		.dmem_wdata(dmem_wdata),
+		.dmem_data_en(dmem_data_en)
 	);
 	
 endmodule
