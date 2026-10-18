@@ -56,6 +56,15 @@ module controller(
 				WBSel = 2'b00;
 			end
 			
+			
+			// I-Type: STORE
+			OPC_STORE: begin
+				ImmSel = IMM_S;
+				RegWEn = 1'b0;
+				ALUSel = ALU_SEL_LS;
+				BSel = 1'b1;
+			end
+			
 			default:	;	
 		
 		endcase
