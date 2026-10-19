@@ -28,6 +28,9 @@ always_comb begin
 		// J-Type
 		IMM_J: imm = { {12{inst[31]}}, inst[19:12], inst[20], inst[30:21], 1'b0 };
 		
+		// U-Type
+		IMM_U: imm = { inst[31:12], 12'b0 };
+		
 		default: imm = '0;		// Default value
 	
 	endcase

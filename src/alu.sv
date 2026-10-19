@@ -40,6 +40,8 @@ module alu (
 			
 			ALU_AND: alu_out = op_a & op_b;		// Bitwise AND
 			
+			ALU_B_PASS: alu_out = op_b;		// Operand B as output without using operand A
+			
 			
 			default: alu_out = '0;		// Default
 		

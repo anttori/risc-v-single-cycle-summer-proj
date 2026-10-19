@@ -138,6 +138,17 @@ module controller(
 				WBSel = 2'b10;
 			end
 			
+			
+			// U-Type: LUI
+			OPC_LUI: begin
+				PCSel = 1'b0;
+				ImmSel = IMM_U;
+				RegWEn = 1'b1;
+				BSel = 1'b1;
+				ALUSel = ALU_SEL_U;
+				WBSel = 2'b01;
+			end
+			
 			default:	;	
 		
 		endcase
