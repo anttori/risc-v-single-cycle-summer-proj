@@ -3,13 +3,17 @@ import riscv_pkg::*;
 module controller(
 	
 	input logic [6:0] opcode,
-	
 	input logic [2:0] func3,
+	
+	input logic BrEq,
+	input logic BrLt,
 	
 	
 	output logic RegWEn,		// Register Write flag
 	
 	output alu_sel_e ALUSel,		// ALU inst family
+	
+	output logic ASel,		// Selector for ALU op_a input Mux
 	
 	output logic BSel,		// Selector for ALU op_b input Mux
 	
@@ -17,7 +21,11 @@ module controller(
 	
 	output logic MemRW,		// DMEM Read/Write flag
 	
-	output logic [1:0] WBSel		// Writeback Mux Selector
+	output logic [1:0] WBSel,		// Writeback Mux Selector
+	
+	output logic PCSel,		// Selector for PC input Mux
+	
+	output logic BrUn		// Branch unsigned comparison flag
 );
 
 	always_comb begin
@@ -25,10 +33,13 @@ module controller(
 		// Default output values
 		RegWEn = 1'b0;
 		ALUSel = ALU_SEL_R;
+		ASel = 1'b0;
 		BSel = 1'b0;
 		ImmSel = IMM_I;
 		MemRW = 1'b0;
 		WBSel = 2'b01; 	
+		PCSel = 1'b0;
+		BrUn = 1'b0;
 		
 		case(opcode)
 			
@@ -57,7 +68,7 @@ module controller(
 			end
 			
 			
-			// I-Type: STORE
+			// S-Type
 			OPC_STORE: begin
 				ImmSel = IMM_S;
 				RegWEn = 1'b0;
@@ -65,6 +76,47 @@ module controller(
 				BSel = 1'b1;
 				MemRW = 1'b1;
 			end
+			
+			
+			// B-Type			
+			OPC_BRANCH: begin
+				ImmSel = IMM_B;
+				ASel = 1'b1;
+				BSel = 1'b1;
+				ALUSel = ALU_SEL_B;
+				
+				case(func3) 
+					
+					// BEQ
+					3'b000: PCSel = BrEq;
+					
+					// BNE
+					3'b001: PCSel = ~BrEq;
+					
+					// BLT
+					3'b100: PCSel = BrLt;
+					
+					// BGE
+					3'b101: PCSel = ~BrLt;
+					
+					//BLTU
+					3'b110: begin
+						BrUn = 1'b1;
+						PCSel = BrLt;
+					end
+					
+					//BGEU
+					3'b111: begin
+						BrUn = 1'b1;
+						PCSel = ~BrLt;
+					end
+					
+					default: ;
+				
+				endcase
+				
+				
+			end 
 			
 			default:	;	
 		

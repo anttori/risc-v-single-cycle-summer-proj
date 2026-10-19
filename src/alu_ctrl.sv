@@ -84,8 +84,14 @@ module alu_ctrl(
 			end
 			
 			
-			// I-Type: LOAD/STORE
+			// S-Type / I-Type: LOAD 
 			ALU_SEL_LS: begin				
+				alu_ctrl_out = ALU_ADD;
+			end
+			
+			
+			// B-Type
+			ALU_SEL_B: begin
 				alu_ctrl_out = ALU_ADD;
 			end
 			
