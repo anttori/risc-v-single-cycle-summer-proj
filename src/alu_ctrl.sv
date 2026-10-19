@@ -95,6 +95,10 @@ module alu_ctrl(
 				alu_ctrl_out = ALU_ADD;
 			end
 			
+			// J-Type
+			ALU_SEL_J: begin
+				alu_ctrl_out = ALU_ADD;
+			end
 			
 			default: alu_ctrl_out = ALU_ADD;		// Temporary: Add for any inst other than R-type 
 		

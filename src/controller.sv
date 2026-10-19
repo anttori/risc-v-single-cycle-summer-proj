@@ -97,7 +97,6 @@ module controller(
 				ALUSel = ALU_SEL_B;
 				
 				case(func3) 
-					
 					// BEQ
 					3'b000: PCSel = BrEq;
 					
@@ -123,11 +122,21 @@ module controller(
 					end
 					
 					default: ;
-				
 				endcase
 				
-				
 			end 
+			
+			
+			// J-Type
+			OPC_JAL: begin
+				PCSel = 1'b1;
+				ImmSel = IMM_J;
+				RegWEn = 1'b1;
+				ASel = 1'b1;
+				BSel = 1'b1;
+				ALUSel = ALU_SEL_J;
+				WBSel = 2'b10;
+			end
 			
 			default:	;	
 		
