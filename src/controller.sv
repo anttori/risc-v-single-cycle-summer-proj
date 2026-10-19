@@ -68,6 +68,17 @@ module controller(
 			end
 			
 			
+			// I-Type: JALR
+			OPC_JALR: begin
+				ImmSel = IMM_I;
+				RegWEn = 1'b1;
+				BSel = 1'b1;
+				ALUSel = ALU_SEL_I;
+				WBSel = 2'b10;
+				PCSel = 1'b1;
+			end
+			
+			
 			// S-Type
 			OPC_STORE: begin
 				ImmSel = IMM_S;

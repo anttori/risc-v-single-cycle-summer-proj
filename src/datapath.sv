@@ -66,7 +66,7 @@ module datapath (
 		case(WBSel)
 			2'b01: wb_data = alu_result;		// 1: Data from ALU	
 			2'b00: wb_data = le_data;		// 2: Data from DMEM
-			// 2'b10: TODO		// 3: Reserved for JAL/JALR
+			2'b10: wb_data = pc + 32'h4;		// 3: PC+4
 			
 			default: wb_data = alu_result;	
 		endcase
