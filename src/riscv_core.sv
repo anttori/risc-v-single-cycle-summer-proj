@@ -19,8 +19,13 @@ module riscv_core (
 
 	// Internal signals
 	logic RegWEn;		// Register write flag
+	logic ASel;		// Selector for ALU op_a input Mux
 	logic BSel;		// Selector for ALU op_b input Mux
 	logic [1:0] WBSel;		// Selector for writeback Mux
+	logic BrEq;
+	logic BrLt;
+	logic PCSel;
+	logic BrUn;
 	
 	alu_sel_e ALUSel;		// ALU inst family
 	alu_states ALUCtrl;		// ALU operation type
@@ -31,12 +36,18 @@ module riscv_core (
 	controller u_controller(
 		.opcode(inst[6:0]),		// Bit cut-out straight from inst	
 		.func3(inst[14:12]),
+		.BrEq(BrEq),
+		.BrLt(BrLt),
+		
 		.RegWEn(RegWEn),
 		.ALUSel(ALUSel),
+		.ASel(ASel), 	
 		.BSel(BSel),
 		.ImmSel(ImmSel),
 		.MemRW(dmem_wen),
-		.WBSel(WBSel)
+		.WBSel(WBSel),
+		.PCSel(PCSel),
+		.BrUn(BrUn)
 	);
 	
 	
@@ -59,15 +70,22 @@ module riscv_core (
 		
 		.RegWEn(RegWEn),
 		.ALUCtrl(ALUCtrl),
+		.ASel(ASel),
 		.BSel(BSel),
 		.ImmSel(ImmSel),
 		.WBSel(WBSel),
 		.MemRW(dmem_wen),
+		.BrUn(BrUn),
+		.PCSel(PCSel),
 		
 		.pc(pc),
+		
 		.dmem_addr(dmem_addr),
 		.dmem_wdata(dmem_wdata),
-		.dmem_data_en(dmem_data_en)
+		.dmem_data_en(dmem_data_en),
+		
+		.BrEq(BrEq),
+		.BrLt(BrLt)
 	);
 
 	

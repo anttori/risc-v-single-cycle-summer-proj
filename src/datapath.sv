@@ -11,20 +11,26 @@ module datapath (
 	
 	input logic RegWEn,				// Register Write Enable flag
 	input alu_states ALUCtrl,		// ALU state flag
+	input logic ASel,				// Selector for ALU op_a input mux
 	input logic BSel,				// Selector for ALU op_b input mux
 	input imm_sel_e ImmSel,		// Imm Gen control signal
 	input logic [1:0] WBSel,		// Writeback mux selector
 	input logic MemRW,		// DMEM Read/Write flag
+	input logic BrUn,		// Branch unsigned comparison flag
+	input logic PCSel,		// PC input Mux selector
 	
 	output logic [31:0] pc, 		// Next instruction address
 	
 	output logic [31:0] dmem_addr,		// DMEM Read/Write word address
 	output logic [31:0] dmem_wdata,		// DMEM Data to store
-	output logic [3:0] dmem_data_en 	// DMEM Write mask
+	output logic [3:0] dmem_data_en, 	// DMEM Write mask
+	
+	output logic BrEq,
+	output logic BrLt
 );
 	
 	// Internal datapath signals
-	logic [31:0] pc_plus_4;
+	logic [31:0] pc_next;
 	
 	logic [31:0] reg1_data;
 	logic [31:0] reg2_data; 
@@ -34,20 +40,27 @@ module datapath (
 
 	logic [31:0] imm;
 	
+	logic [31:0] alu_op_a;
 	logic [31:0] alu_op_b;
 	
 	logic [31:0] le_data;		// Load Extender writeback data
 
 	
 	always_comb begin
-		// Next instruction address logic (PC+4)
-		pc_plus_4 = pc + 32'h4;
+	
+		// Next instruction address logic 
+		if(PCSel) pc_next = alu_result;		// Calculated Branch/Jump address
+		else pc_next = pc + 32'h4;		// PC+4
 		
-		// ALU op_b mux
+		
+		// ALU op_a & op_b muxes
+		alu_op_a = ASel ? pc : reg1_data;
 		alu_op_b = BSel ? imm : reg2_data;
+		
 		
 		// ALU result is DMEM address
 		dmem_addr = alu_result;		//CHECK THIS
+	
 	
 		// Register File Writeback Mux
 		case(WBSel)
@@ -57,6 +70,7 @@ module datapath (
 			
 			default: wb_data = alu_result;	
 		endcase
+		
 	end
 
 	
@@ -66,7 +80,7 @@ module datapath (
 	) u_pc (
 		.clk(clk),
 		.resetN(resetN),
-		.pc_next(pc_plus_4),
+		.pc_next(pc_next),
 		.pc_out(pc)
 	);
 	
@@ -87,7 +101,7 @@ module datapath (
 	
 	// ALU instance
 	alu u_alu(
-		.op_a(reg1_data),		// Temporary: reg1 data straight as ALU op_a input 
+		.op_a(alu_op_a),
 		.op_b(alu_op_b),
 		.ALUCtrl(ALUCtrl),
 		.alu_out(alu_result)
@@ -119,6 +133,16 @@ module datapath (
 		.MemRW(MemRW),
 		.dmem_wdata(dmem_wdata),
 		.dmem_data_en(dmem_data_en)
+	);
+	
+	
+	// Branch Comparator instance
+	branch_comp u_branch_comp(
+		.data_a(reg1_data),
+		.data_b(reg2_data),
+		.br_un(BrUn),
+		.br_eq(BrEq),
+		.br_lt(BrLt)
 	);
 	
 endmodule
