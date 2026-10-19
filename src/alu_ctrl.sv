@@ -102,9 +102,15 @@ module alu_ctrl(
 			end
 			
 			
+			// U-Type: LUI
+			ALU_SEL_LUI: begin
+				alu_ctrl_out = ALU_B_PASS;
+			end
+			
+			
 			// U-Type
 			ALU_SEL_U: begin
-				alu_ctrl_out = ALU_B_PASS;
+				alu_ctrl_out = ALU_ADD;
 			end
 			
 			

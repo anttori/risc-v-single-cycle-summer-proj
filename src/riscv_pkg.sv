@@ -10,7 +10,7 @@ package riscv_pkg;
 
 	typedef enum logic [3:0] { ALU_ADD, ALU_SUB, ALU_SLL, ALU_SLT, ALU_SLTU, ALU_XOR, ALU_SRL, ALU_SRA, ALU_OR, ALU_AND, ALU_B_PASS } alu_states;
 	
-	typedef enum logic [3:0] { ALU_SEL_R, ALU_SEL_I, ALU_SEL_LS, ALU_SEL_B, ALU_SEL_J, ALU_SEL_U } alu_sel_e;
+	typedef enum logic [3:0] { ALU_SEL_R, ALU_SEL_I, ALU_SEL_LS, ALU_SEL_B, ALU_SEL_J, ALU_SEL_U, ALU_SEL_LUI } alu_sel_e;
 	
 	typedef enum logic [6:0] {
 		OPC_OP = 7'b0110011,

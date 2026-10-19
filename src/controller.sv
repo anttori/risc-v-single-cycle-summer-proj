@@ -145,6 +145,18 @@ module controller(
 				ImmSel = IMM_U;
 				RegWEn = 1'b1;
 				BSel = 1'b1;
+				ALUSel = ALU_SEL_LUI;
+				WBSel = 2'b01;
+			end
+			
+			
+			// U-Type: AUIPC
+			OPC_AUIPC: begin
+				PCSel = 1'b0;
+				ImmSel = IMM_U;
+				RegWEn = 1'b1;
+				ASel = 1'b1;
+				BSel = 1'b1;
 				ALUSel = ALU_SEL_U;
 				WBSel = 2'b01;
 			end
