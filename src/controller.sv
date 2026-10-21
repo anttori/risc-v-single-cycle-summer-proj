@@ -161,6 +161,25 @@ module controller(
 				WBSel = 2'b01;
 			end
 			
+			
+			// FENCE, FENCE.I
+			// Implemented as NOP for single-cycle no-cache core
+			OPC_FENCE: begin
+				RegWEn = 1'b0;
+				MemRW = 1'b0;
+				PCSel = 1'b0;
+			end
+			
+			
+			// System instructions
+			// Stubbed as NOP (bare-metal environment)
+			OPC_SYSTEM: begin
+				RegWEn = 1'b0;
+				MemRW = 1'b0;
+				PCSel = 1'b0;
+			end
+			
+			
 			default:	;	
 		
 		endcase

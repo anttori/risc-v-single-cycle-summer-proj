@@ -22,6 +22,7 @@ package riscv_pkg;
 		OPC_JAL = 7'b1101111,
 		OPC_LUI = 7'b0110111,
 		OPC_AUIPC = 7'b0010111,
+		OPC_FENCE  = 7'b0001111,
 		OPC_SYSTEM = 7'b1110011
 	} opcode_e;
 	
