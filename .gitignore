@@ -29,3 +29,6 @@ work/
 # OS service files
 Thumbs.db
 .DS_Store
+
+# Editor and tool backup files
+*.bak
