@@ -132,6 +132,18 @@
 
 
 
+### 20.10.2026: System & Fence instructions stubs (NOP handling); Bare-metal environment support
+
+
+### Architectural Decisions:
+- Add explicit NOP decoding for `OPC_FENCE` (`FENCE`, `FENCE.I`) and `OPC_SYSTEM` (`ECALL`, `EBREAK`, `CSR*`). For an unpipelined, single-cycle, no-cache core running in a bare-metal environment, memory barriers and trap/system calls are handled as benign NOPs (`RegWEn = 0`, `MemRW = 0`, `PCSel = 0`). This ensures safety against compiler-inserted barriers and eliminates unhandled opcode synthesis warnings.
+
+
+### Components:
+- 'src/riscv_pkg.sv': add `OPC_FENCE` to `opcode_e` enum
+- 'src/controller.sv': additional cases for `OPC_FENCE` and `OPC_SYSTEM` as NOP decoding branches
+
+
 
 
 
