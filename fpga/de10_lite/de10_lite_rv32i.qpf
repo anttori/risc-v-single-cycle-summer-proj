@@ -1,0 +1,12 @@
+# -------------------------------------------------------------------------- #
+#
+# Quartus Prime project file: RV32I single-cycle core on the DE10-Lite
+#
+# -------------------------------------------------------------------------- #
+
+QUARTUS_VERSION = "17.0"
+DATE = "00:00:00  January 01, 2026"
+
+# Revisions
+
+PROJECT_REVISION = "de10_lite_rv32i"
