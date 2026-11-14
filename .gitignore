@@ -36,3 +36,6 @@ Thumbs.db
 # Quartus dumps and simulation hex copies
 c5_pin_model_dump.txt
 sim/*.hex
+
+# Local bare-metal utilities
+/RiscV bare metall utils/
