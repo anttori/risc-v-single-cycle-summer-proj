@@ -18,6 +18,12 @@ hps_isw_handoff/
 *.summary
 *.qws
 *.bsf
+*.sld
+greybox_tmp/
+
+# Intermediate firmware build products (fpga_test.hex is kept)
+fpga/de10_lite/fpga_test.elf
+fpga/de10_lite/fpga_test.bin
 
 # Temporary ModelSim files
 simulation/
@@ -39,3 +45,4 @@ sim/*.hex
 
 # Local bare-metal utilities
 /RiscV bare metall utils/
+*.qdf
