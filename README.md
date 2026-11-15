@@ -58,6 +58,9 @@ End-to-end integration verification was performed by running a bare-metal C impl
 - **Execution:** 1,629 clock cycles executed in simulation.
 - **Verification:** Correct encryption to ciphertext and subsequent decryption back to original plaintext (`0x00C0FFEE`, `0xFEE1600D`) verified via automated memory assertions.
 
+### 3. FPGA Hardware Verification
+The design was successfully programmed and tested on a Terasic DE10-Lite FPGA board.
+
 ---
 
 ## Project Structure
