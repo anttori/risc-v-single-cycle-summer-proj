@@ -59,7 +59,11 @@ End-to-end integration verification was performed by running a bare-metal C impl
 - **Verification:** Correct encryption to ciphertext and subsequent decryption back to original plaintext (`0x00C0FFEE`, `0xFEE1600D`) verified via automated memory assertions.
 
 ### 3. FPGA Hardware Verification
-The design was successfully programmed and tested on a Terasic DE10-Lite FPGA board.
+The core was synthesized and verified on a **Terasic DE10-Lite** board (**Intel MAX 10 `10M50DAF484C7G`**) at **25 MHz** using an isolated SoC wrapper (`fpga/de10_lite/`):
+* **Memory-Mapped I/O (MMIO):** Decodes data-bus transactions to drive the 7-segment displays (`HEX5`–`HEX0`), status LEDs (`LEDR[9:0]`), and read slide switches (`SW[1:0]`).
+* **Bare-Metal Workload:** Executes a self-checking XTEA encryption/decryption program utilizing stack memory in DMEM, asserting `LEDR[9]` on pass and displaying the verified output (`C0FFEE` / `E1600D`) on the 7-segment displays.
+
+<img src="fpga/de10_lite/demo.jpg" alt="DE10-Lite FPGA Verification" width="600">
 
 ---
 
